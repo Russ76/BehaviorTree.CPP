@@ -23,7 +23,7 @@ RetryNode::RetryNode(const std::string& name, int NTries)
     try_index_(0),
     read_parameter_from_ports_(false)
 {
-    setRegistrationID("RetryUntilSuccesful");
+    setRegistrationID("RetryUntilSuccessful");
 }
 
 RetryNode::RetryNode(const std::string& name, const NodeConfiguration& config)
@@ -55,18 +55,19 @@ NodeStatus RetryNode::tick()
     while (try_index_ < max_attempts_ || max_attempts_ == -1)
     {
         NodeStatus child_state = child_node_->executeTick();
-
         switch (child_state)
         {
             case NodeStatus::SUCCESS:
             {
                 try_index_ = 0;
+                haltChild();
                 return (NodeStatus::SUCCESS);
             }
 
             case NodeStatus::FAILURE:
             {
                 try_index_++;
+                haltChild();
             }
             break;
 

@@ -36,7 +36,8 @@ BehaviorTreeFactory::BehaviorTreeFactory()
     registerNodeType<RetryNode>("RetryUntilSuccesful");
     registerNodeType<KeepRunningUntilFailureNode>("KeepRunningUntilFailure");
     registerNodeType<RepeatNode>("Repeat");
-    registerNodeType<TimeoutNode>("Timeout");
+    registerNodeType<TimeoutNode<>>("Timeout");
+    registerNodeType<DelayNode>("Delay");
 
     registerNodeType<ForceSuccessNode>("ForceSuccess");
     registerNodeType<ForceFailureNode>("ForceFailure");
@@ -182,7 +183,7 @@ std::vector<std::string> getCatkinLibraryPaths()
 void BehaviorTreeFactory::registerFromROSPlugins()
 {
     std::vector<std::string> plugins;
-    ros::package::getPlugins("behaviortree_cpp", "bt_lib_plugin", plugins, true);
+    ros::package::getPlugins("behaviortree_cpp_v3", "bt_lib_plugin", plugins, true);
     std::vector<std::string> catkin_lib_paths = getCatkinLibraryPaths();
 
     for (const auto& plugin : plugins)
